@@ -1,0 +1,45 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin; /* 使用视窗高度的百分比 */
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+/* 深色模式下，背景色改为更浅的灰色 */
+@media (prefers-color-scheme: dark) {
+  .App-header {
+    background-color: #424242; /* 更浅的灰色 */
+  }
+}
+
+.App-header {
+  background-color: #F5F5F5; /* 淺綠色 */
+  min-height: 100vh; /* 使用视窗高度的百分比 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin); 
+  color: #333333; /* 深灰色文字 */
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
