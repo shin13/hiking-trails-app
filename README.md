@@ -1,6 +1,6 @@
 # Hiking Trails App
 
-[![Under Development](https://img.shields.io/badge/status-under%20development-yellow.svg)](https://shields.io/)  [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://shields.io/)
+[![Under Development](https://img.shields.io/badge/status-under%20development-yellow.svg)](https://shields.io/)  [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 This project is currently under development. 
 
