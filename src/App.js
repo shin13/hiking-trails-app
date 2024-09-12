@@ -8,6 +8,7 @@ import axios from 'axios';
 function App() {
   const [darkMode, setDarkMode] = useState(false);
   const [trails, setTrails] = useState([]);
+  const [openStatus, setOpenStatus] = useState([]); // 新增 openStatus 狀態
 
   const theme = createTheme({
     palette: {
@@ -17,6 +18,7 @@ function App() {
 
   useEffect(() => {
     fetchTrails();
+    fetchOpen();
   }, []);
 
   const fetchTrails = async () => {
@@ -38,13 +40,31 @@ function App() {
       console.error('Error fetching trails:', error);
     }
   };
-  
+
+  const fetchOpen = async () => {
+    try {
+      const response = await axios.get('https://data.moa.gov.tw/Service/OpenData/ForestRtOpen.aspx');
+      const open = response.data.map(open => ({
+        // 根据 API 数据结构提取相应信息，并将其存入新对象
+        "步道代碼": open.TRAILID,
+        "步道名稱": open.TR_CNAME, 
+        "步道路況狀態": open.TR_TYP,
+        "路況標題": open.Title, 
+        "路況內容": open.content,
+        "訊息發佈日期": open.ANN_DATE,
+        "訊息發佈單位": open.DEP_NAME,
+      }));
+      setOpenStatus(open); // 使用 setOpenStatus 來設置狀態
+    } catch (error) {
+      console.error('Error fetching trails OPEN :', error);
+    }
+  };
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
-      <TrailTable trails={trails} />
+      <TrailTable trails={trails} openStatus={openStatus} /> {/* 將 openStatus 傳遞給 TrailTable */}
       <Footer />
     </ThemeProvider>
   );

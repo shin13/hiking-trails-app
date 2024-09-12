@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { 
+import {
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper,
-  TextField, Button
+  TextField, Button, Tooltip
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
@@ -77,6 +77,16 @@ function TrailTable({ trails }) {
     );  
   };
 
+  // 給表格中的數據加上路況的資訊
+  const trailsWithStatus = sortedTrails.map(trail => {
+    const status = openStatus.find(open => open['步道名稱'] === trail['步道名稱']);
+    return {
+      ...trail,
+      '步道路況狀態': status ? status['步道路況狀態'] : '',
+      '訊息發佈日期': status ? status['訊息發佈日期'] : '',
+    };
+  });
+
   return (
     <OuterContainer>
       <TableWrapper>
@@ -92,23 +102,25 @@ function TrailTable({ trails }) {
           </ClearButton>
         </SearchContainer>
         <CustomTableContainer component={Paper}>
-          <Table stickyHeader>
+        <Table stickyHeader>
             <TableHead>
               <TableRow>
-                {['步道名稱', '所在地', '難度', '類型', '長度', '海拔高度', '適合季節'].map((column, index) => (
-                  <TableCell key={column} onClick={() => handleSort(column)} style={{ width: (index === 0) ? '15%' : '10%' }}> 
+                {['步道名稱', '步道路況狀態', '所在地', '難度', '長度', '海拔高度', '適合季節'].map((column) => (
+                  <TableCell key={column} onClick={() => handleSort(column)}>
                     {column} {sortColumn === column && (sortDirection === 'asc' ? '▲' : '▼')}
                   </TableCell>
                 ))}
               </TableRow>
             </TableHead>
             <TableBody>
-              {sortedTrails.map((trail) => (
-                <TableRow key={trail.TRAILID}>
+              {trailsWithStatus.map((trail) => (
+                <TableRow key={trail['步道名稱']}>
                   <TableCell>{highlightText(trail['步道名稱'], searchTerm)}</TableCell>
+                  <Tooltip title={`訊息發佈日期: ${trail['訊息發佈日期']}`}>
+                    <TableCell>{highlightText(trail['步道路況狀態'], searchTerm)}</TableCell>
+                  </Tooltip>
                   <TableCell>{highlightText(trail['所在地'], searchTerm)}</TableCell>
                   <TableCell>{highlightText(trail['難度'], searchTerm)}</TableCell>
-                  <TableCell>{highlightText(trail['類型'], searchTerm)}</TableCell>
                   <TableCell>{highlightText(trail['長度'], searchTerm)}</TableCell>
                   <TableCell>{highlightText(trail['海拔高度'], searchTerm)}</TableCell>
                   <TableCell>{highlightText(trail['適合季節'], searchTerm)}</TableCell>
