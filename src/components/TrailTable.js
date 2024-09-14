@@ -5,6 +5,7 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
+
 const OuterContainer = styled('div')({
   display: 'flex', // 使用 flexbox 布局
   justifyContent: 'center', // 將內容居中
@@ -21,19 +22,23 @@ const TableWrapper = styled('div')({
   },
 });
 
+
 const SearchContainer = styled('div')(({ theme }) => ({
   display: 'flex',
   justifyContent: 'center',
   margin: '20px 0',
 }));
 
+
 const SearchInput = styled(TextField)(({ theme }) => ({
   marginRight: '10px',
 }));
 
+
 const CustomTableContainer = styled(TableContainer)(({ theme }) => ({
   maxHeight: 440,
 }));
+
 
 const ClearButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'light' ? '#3B7A57' : '#E0F2F1', // light mode 与 navbar 相同，dark mode 浅绿色
@@ -42,11 +47,13 @@ const ClearButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-function TrailTable({ trails }) {
+
+function TrailTable({ trails, openStatus }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortColumn, setSortColumn] = useState('');
   const [sortDirection, setSortDirection] = useState('asc');
 
+  
   const handleSort = (column) => {
     if (sortColumn === column) {
       setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
@@ -62,11 +69,13 @@ function TrailTable({ trails }) {
     )
   );
 
+
   const sortedTrails = [...filteredTrails].sort((a, b) => {
     if (a[sortColumn] < b[sortColumn]) return sortDirection === 'asc' ? -1 : 1;
     if (a[sortColumn] > b[sortColumn]) return sortDirection === 'asc' ? 1 : -1;
     return 0;
   });
+
 
   const highlightText = (text, highlight) => {
     const safeText = text ? text.toString() : '';
@@ -77,9 +86,10 @@ function TrailTable({ trails }) {
     );  
   };
 
+
   // 給表格中的數據加上路況的資訊
   const trailsWithStatus = sortedTrails.map(trail => {
-    const status = openStatus.find(open => open['步道名稱'] === trail['步道名稱']);
+    const status = openStatus.find(open => open['步道代碼'] === trail['步道代碼']);
     return {
       ...trail,
       '步道路況狀態': status ? status['步道路況狀態'] : '',
@@ -92,7 +102,7 @@ function TrailTable({ trails }) {
       <TableWrapper>
         <SearchContainer>
           <SearchInput
-            label=" 搜尋關鍵字"
+            label="搜尋關鍵字"
             variant="outlined"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -114,11 +124,12 @@ function TrailTable({ trails }) {
             </TableHead>
             <TableBody>
               {trailsWithStatus.map((trail) => (
-                <TableRow key={trail['步道名稱']}>
+                <TableRow key={trail['步道代碼']}>
                   <TableCell>{highlightText(trail['步道名稱'], searchTerm)}</TableCell>
-                  <Tooltip title={`訊息發佈日期: ${trail['訊息發佈日期']}`}>
+                  {/* <Tooltip title={trail['訊息發佈日期'] ? `發佈日期: ${trail['訊息發佈日期']}` : ''}>
                     <TableCell>{highlightText(trail['步道路況狀態'], searchTerm)}</TableCell>
-                  </Tooltip>
+                  </Tooltip>   */}
+                  <TableCell>{highlightText(trail['步道路況狀態'], searchTerm)}</TableCell>
                   <TableCell>{highlightText(trail['所在地'], searchTerm)}</TableCell>
                   <TableCell>{highlightText(trail['難度'], searchTerm)}</TableCell>
                   <TableCell>{highlightText(trail['長度'], searchTerm)}</TableCell>
