@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/hiking-trails-app/static/js/main.481b7e69.js",
+    "main.js": "/hiking-trails-app/static/js/main.c1c4ac38.js",
     "index.html": "/hiking-trails-app/index.html",
-    "main.481b7e69.js.map": "/hiking-trails-app/static/js/main.481b7e69.js.map"
+    "main.c1c4ac38.js.map": "/hiking-trails-app/static/js/main.c1c4ac38.js.map"
   },
   "entrypoints": [
-    "static/js/main.481b7e69.js"
+    "static/js/main.c1c4ac38.js"
   ]
 }
